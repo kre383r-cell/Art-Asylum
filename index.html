@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Art Asylum — a dark luxury digital gallery and collector's club for rare art prints and subscriptions."
+    />
+    <title>Art Asylum — Collect the Uncommon</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --black: #0e0d0c;
+        --panel: #171513;
+        --paper: #efeae1;
+        --muted: #9f998e;
+        --gold: #c8a66e;
+        --line: rgba(255, 255, 255, 0.12);
+        --shadow: rgba(0, 0, 0, 0.28);
+      }
+
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        background: var(--black);
+        color: var(--paper);
+        font-family: "Inter", sans-serif;
+      }
+      a { color: inherit; text-decoration: none; }
+      button, input { font: inherit; }
+
+      .announcement {
+        background: var(--gold);
+        color: var(--black);
+        text-align: center;
+        padding: 10px 16px;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        font: 10px "DM Mono", monospace;
+      }
+
+      .site-header {
+        height: 88px;
+        border-bottom: 1px solid var(--line);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 5vw;
+        position: relative;
+        z-index: 2;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        font: 600 12px/1 "DM Mono", monospace;
+        letter-spacing: 0.08em;
+      }
+
+      .brand-mark {
+        width: 38px;
+        height: 38px;
+        border: 1px solid var(--gold);
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        color: var(--gold);
+        font-size: 10px;
+      }
+
+      .desktop-nav {
+        display: flex;
+        align-items: center;
+        gap: 36px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .bag-button {
+        border: 0;
+        background: transparent;
+        color: var(--paper);
+        cursor: pointer;
+        text-transform: uppercase;
+        font: 11px "DM Mono", monospace;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .bag-button span {
+        display: inline-grid;
+        place-items: center;
+        width: 21px;
+        height: 21px;
+        border-radius: 50%;
+        background: var(--gold);
+        color: var(--black);
+        font-size: 11px;
+      }
+
+      .section-wrap {
+        padding-left: 7vw;
+        padding-right: 7vw;
+      }
+
+      .hero {
+        min-height: 670px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8vw;
+        align-items: center;
+        padding-top: 70px;
+        padding-bottom: 90px;
+      }
+
+      .eyebrow {
+        margin: 0 0 22px;
+        font: 11px "DM Mono", monospace;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: var(--gold);
+      }
+
+      .hero h1 {
+        margin: 18px 0 28px;
+        font: 400 clamp(58px, 8vw, 110px) / 0.87 "Playfair Display", serif;
+        letter-spacing: -0.065em;
+      }
+
+      .hero h1 em,
+      .pricing-intro h2 em {
+        color: var(--gold);
+        font-style: italic;
+        font-weight: 500;
+      }
+
+      .hero-text {
+        max-width: 430px;
+        color: var(--muted);
+        font-size: 15px;
+        line-height: 1.75;
+      }
+
+      .button {
+        display: inline-block;
+        width: fit-content;
+        border: 1px solid var(--gold);
+        background: transparent;
+        color: var(--paper);
+        padding: 15px 21px;
+        cursor: pointer;
+        text-transform: uppercase;
+        font: 10px "DM Mono", monospace;
+        letter-spacing: 0.12em;
+        transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+      }
+
+      .button:hover {
+        background: var(--gold);
+        color: var(--black);
+        transform: translateY(-1px);
+      }
+
+      .button span {
+        margin-left: 20px;
+        font-size: 18px;
+      }
+
+      .hero-art {
+        position: relative;
+        height: 520px;
+        border: 1px solid var(--line);
+        background:
+          radial-gradient(circle at 50% 40%, rgba(194, 143, 85, 0.55), transparent 26%),
+          linear-gradient(145deg, #2d2520, #0c0c0c 60%);
+        overflow: hidden;
+        box-shadow: 0 20px 60px var(--shadow);
+      }
+
+      .hero-art::before {
+        content: "";
+        position: absolute;
+        inset: 26px;
+        border: 1px solid rgba(200, 166, 110, 0.5);
+        border-radius: 50%;
+        transform: rotate(28deg) scaleY(0.35);
+      }
+
+      .hero-art::after {
+        content: "";
+        position: absolute;
+        width: 250px;
+        height: 250px;
+        left: 50%;
+        top: 43%;
+        transform: translate(-50%, -50%);
+        border: 1px solid rgba(200, 166, 110, 0.42);
+        border-radius: 50%;
+      }
+
+      .orb {
+        position: absolute;
+        width: 170px;
+        height: 170px;
+        left: 50%;
+        top: 42%;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        background: radial-gradient(circle at 35% 30%, #eed7b1, #9a6a3d 30%, #261b17 80%);
+        box-shadow: 0 0 80px rgba(200, 166, 110, 0.35);
+      }
+
+      .orbit {
+        position: absolute;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 50%;
+        left: 50%;
+        top: 225px;
+        transform: translate(-50%, -50%);
+      }
+
+      .orbit-one {
+        width: 460px;
+        height: 150px;
+        transform: translate(-50%, -50%) rotate(-25deg);
+      }
+
+      .orbit-two {
+        width: 520px;
+        height: 250px;
+        transform: translate(-50%, -50%) rotate(48deg);
+      }
+
+      .stage-caption {
+        position: absolute;
+        left: 20px;
+        right: 20px;
+        bottom: 18px;
+        display: flex;
+        justify-content: space-between;
+        color: var(--muted);
+        font: 10px "DM Mono", monospace;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+      }
+
+      .ticker {
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+        overflow: hidden;
+        white-space: nowrap;
+        color: var(--gold);
+        padding: 15px 0;
+        font: 10px "DM Mono", monospace;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .ticker div {
+        animation: ticker-scroll 26s linear infinite;
+      }
+
+      @keyframes ticker-scroll {
+        from { transform: translateX(0); }
+        to { transform: translateX(-36%); }
+      }
+
+      .gallery {
+        padding-top: 120px;
+        padding-bottom: 120px;
+      }
+
+      .section-heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        margin-bottom: 36px;
+      }
+
+      .section-heading h2,
+      .about-content h2,
+      .pricing-intro h2 {
+        font: 400 clamp(42px, 6vw, 76px) / 0.9 "Playfair Display", serif;
+        letter-spacing: -0.06em;
+        margin: 0;
+      }
+
+      .section-note {
+        color: var(--muted);
+        font: 11px "DM Mono", monospace;
+        line-height: 1.6;
+        text-align: right;
+      }
+
+      .filter-row {
+        display: flex;
+        gap: 24px;
+        padding: 50px 0 15px;
+        border-bottom: 1px solid var(--line);
+        margin-bottom: 35px;
+      }
+
+      .filter {
+        background: none;
+        border: none;
+        color: var(--muted);
+        padding: 0;
+        cursor: pointer;
+        font: 11px "DM Mono", monospace;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      .filter.active {
+        color: var(--paper);
+      }
+
+      .filter.active::before {
+        content: "● ";
+        font-size: 8px;
+        color: var(--gold);
+      }
+
+      .art-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .art-image {
+        height: 350px;
+        display: grid;
+        place-items: center;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        transition: transform 0.25s ease;
+      }
+
+      .art-card:hover .art-image {
+        transform: translateY(-5px);
+      }
+
+      .art-number {
+        position: absolute;
+        top: 14px;
+        left: 14px;
+        font: 10px "DM Mono", monospace;
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      .art-symbol {
+        font: 145px Georgia, serif;
+      }
+
+      .art-one {
+        background: linear-gradient(140deg, #2c2336, #a4574b);
+      }
+
+      .art-one .art-symbol {
+        color: #dbb16b;
+        transform: rotate(-18deg);
+      }
+
+      .art-two {
+        background: linear-gradient(140deg, #111, #56363c);
+      }
+
+      .art-two .art-symbol {
+        color: #d4b97d;
+        transform: rotate(35deg);
+      }
+
+      .art-three {
+        background: linear-gradient(140deg, #172c2a, #9c7757);
+      }
+
+      .art-three .art-symbol {
+        color: #e0c892;
+      }
+
+      .art-four {
+        background: linear-gradient(140deg, #372b25, #8d6c61);
+      }
+
+      .art-four .art-symbol {
+        color: #e0c892;
+        transform: rotate(-30deg);
+      }
+
+      .card-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        padding: 16px 0 10px;
+      }
+
+      .card-info h3 {
+        margin: 0 0 6px;
+        font-size: 15px;
+        font-weight: 500;
+      }
+
+      .card-info p,
+      .card-info strong {
+        margin: 0;
+        font: 10px "DM Mono", monospace;
+        color: var(--muted);
+      }
+
+      .card-info strong {
+        color: var(--gold);
+      }
+
+      .add-item {
+        width: 100%;
+        padding: 12px 0;
+        background: transparent;
+        border: 0;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        text-align: left;
+        cursor: pointer;
+        font: 10px "DM Mono", monospace;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+
+      .add-item:hover {
+        color: var(--gold);
+      }
+
+      .pricing {
+        background: var(--panel);
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+        padding-top: 110px;
+        padding-bottom: 110px;
+      }
+
+      .pricing-wrap {
+        max-width: 1300px;
+        margin: 0 auto;
+      }
+
+      .pricing-intro {
+        text-align: center;
+        max-width: 640px;
+        margin: 0 auto 52px;
+      }
+
+      .pricing-intro p:not(.eyebrow) {
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.8;
+      }
+
+      .plans {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .plan {
+        position: relative;
+        padding: 30px 28px 26px;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.01);
+        display: flex;
+        flex-direction: column;
+        min-height: 390px;
+      }
+
+      .plan.featured {
+        border-color: var(--gold);
+        background: linear-gradient(145deg, rgba(200, 166, 110, 0.08), rgba(255, 255, 255, 0.015));
+      }
+
+      .striped-plan {
+        background: repeating-linear-gradient(
+          135deg,
+          rgba(200, 166, 110, 0.05),
+          rgba(200, 166, 110, 0.05) 10px,
+          rgba(255, 255, 255, 0.01) 10px,
+          rgba(255, 255, 255, 0.01) 20px
+        );
+      }
+
+      .plan-tag {
+        min-height: 18px;
+        color: var(--gold);
+        font: 10px "DM Mono", monospace;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+      }
+
+      .plan h3 {
+        margin: 22px 0 8px;
+        font: 400 30px "Playfair Display", serif;
+      }
+
+      .price {
+        margin: 0 0 24px;
+        color: var(--gold);
+        font: 500 29px "Inter", sans-serif;
+      }
+
+      .price small {
+        font: 11px "DM Mono", monospace;
+        color: var(--muted);
+      }
+
+      .features {
+        list-style: none;
+        margin: 0 0 30px;
+        padding: 0;
+        color: var(--muted);
+        line-height: 2;
+        font-size: 12px;
+      }
+
+      .features li::before {
+        content: "✦";
+        color: var(--gold);
+        margin-right: 10px;
+      }
+
+      .plan-button {
+        margin-top: auto;
+        width: 100%;
+        text-align: center;
+      }
+
+      .fine-print {
+        margin-top: 24px;
+        text-align: center;
+        color: var(--muted);
+        font: 10px "DM Mono", monospace;
+      }
+
+      .about {
+        padding-top: 120px;
+        padding-bottom: 140px;
+      }
+
+      .about-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10vw;
+        align-items: start;
+      }
+
+      .about-content p {
+        max-width: 440px;
+        color: var(--muted);
+        line-height: 1.8;
+        font-size: 15px;
+        margin: 0 0 26px;
+      }
+
+      .text-link {
+        border-bottom: 1px solid var(--gold);
+        padding-bottom: 5px;
+        font: 11px "DM Mono", monospace;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .site-footer {
+        border-top: 1px solid var(--line);
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        gap: 20px;
+        padding: 45px 7vw;
+        color: var(--muted);
+        font: 11px "DM Mono", monospace;
+        line-height: 1.7;
+      }
+
+      .footer-links {
+        display: flex;
+        gap: 25px;
+      }
+
+      .toast {
+        position: fixed;
+        right: 25px;
+        bottom: 25px;
+        background: var(--gold);
+        color: var(--black);
+        padding: 14px 18px;
+        font: 11px "DM Mono", monospace;
+        transform: translateY(120px);
+        opacity: 0;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        z-index: 20;
+      }
+
+      .toast.show {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      @media (max-width: 850px) {
+        .desktop-nav { display: none; }
+
+        .hero {
+          grid-template-columns: 1fr;
+          padding-top: 55px;
+        }
+
+        .hero-art { height: 400px; }
+
+        .art-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .plans { grid-template-columns: 1fr; }
+
+        .section-heading { display: block; }
+        .section-note { text-align: left; margin-top: 18px; }
+
+        .about-content {
+          grid-template-columns: 1fr;
+          gap: 32px;
+        }
+
+        .site-footer { flex-wrap: wrap; }
+      }
+
+      @media (max-width: 480px) {
+        .section-wrap {
+          padding-left: 5vw;
+          padding-right: 5vw;
+        }
+
+        .hero h1 { font-size: 66px; }
+
+        .art-grid { grid-template-columns: 1fr; }
+        .art-image { height: 230px; }
+        .art-symbol { font-size: 100px; }
+
+        .card-info { display: block; }
+        .card-info strong { display: block; margin-top: 8px; }
+
+        .site-footer { display: block; }
+        .footer-links { margin-top: 18px; }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="announcement">New work drops monthly · ✦ · Stripe-ready checkout coming soon</div>
+
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Art Asylum home">
+        <span class="brand-mark">AA</span>
+        <span>ART<br />ASYLUM</span>
+      </a>
+
+      <nav class="desktop-nav" aria-label="Main navigation">
+        <a href="#gallery">Gallery</a>
+        <a href="#membership">Membership</a>
+        <a href="#about">About</a>
+      </nav>
+
+      <button id="bagButton" class="bag-button" type="button" aria-label="Shopping bag">
+        Bag <span id="cartCount">0</span>
+      </button>
+    </header>
+
+    <main id="top">
+      <section class="hero section-wrap">
+        <div class="hero-copy">
+          <p class="eyebrow">Private digital gallery · est. 2026</p>
+          <h1>Art for the<br /><em>beautifully</em><br />unwell.</h1>
+          <p class="hero-text">
+            A gathering place for strange ideas, vivid worlds, and limited-edition digital art
+            designed for people who want their walls to feel alive.
+          </p>
+          <a class="button primary" href="#gallery" role="link">Enter the gallery <span>↘</span></a>
+        </div>
+
+        <div class="hero-art" aria-label="Abstract gallery artwork">
+          <div class="orb" aria-hidden="true"></div>
+          <div class="orbit orbit-one" aria-hidden="true"></div>
+          <div class="orbit orbit-two" aria-hidden="true"></div>
+          <div class="stage-caption">
+            <span>Study no. 001</span>
+            <span>Art Asylum archives</span>
+          </div>
+        </div>
+      </section>
+
+      <div class="ticker" aria-label="Highlights">
+        <div>
+          COLLECT THE UNCOMMON ✦ KEEP YOUR WALLS WEIRD ✦ LIMITED DIGITAL EDITIONS ✦ COLLECT THE
+          UNCOMMON ✦ KEEP YOUR WALLS WEIRD ✦
+        </div>
+      </div>
+
+      <section class="gallery section-wrap" id="gallery">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">The collection</p>
+            <h2>Current residents</h2>
+          </div>
+          <p class="section-note">Digital prints · instant download<br />More objects arriving soon</p>
+        </div>
+
+        <div class="filter-row" role="tablist" aria-label="Filter artwork">
+          <button class="filter active" type="button" data-filter="all" aria-pressed="true">All work</button>
+          <button class="filter" type="button" data-filter="print" aria-pressed="false">Digital prints</button>
+          <button class="filter" type="button" data-filter="new" aria-pressed="false">New arrivals</button>
+        </div>
+
+        <div class="art-grid" id="artGrid">
+          <article class="art-card" data-category="print new">
+            <div class="art-image art-one"><span class="art-number">001</span><span class="art-symbol">✳</span></div>
+            <div class="card-info"><div><h3>After the Fever</h3><p>24 × 36 in · digital print</p></div><strong>$24</strong></div>
+            <button class="add-item" type="button" data-name="After the Fever" data-price="24">Add to bag +</button>
+          </article>
+
+          <article class="art-card" data-category="print">
+            <div class="art-image art-two"><span class="art-number">002</span><span class="art-symbol">◒</span></div>
+            <div class="card-info"><div><h3>Soft Machinery</h3><p>18 × 24 in · digital print</p></div><strong>$18</strong></div>
+            <button class="add-item" type="button" data-name="Soft Machinery" data-price="18">Add to bag +</button>
+          </article>
+
+          <article class="art-card" data-category="print new">
+            <div class="art-image art-three"><span class="art-number">003</span><span class="art-symbol">☼</span></div>
+            <div class="card-info"><div><h3>Moonmilk</h3><p>24 × 30 in · digital print</p></div><strong>$22</strong></div>
+            <button class="add-item" type="button" data-name="Moonmilk" data-price="22">Add to bag +</button>
+          </article>
+
+          <article class="art-card" data-category="print">
+            <div class="art-image art-four"><span class="art-number">004</span><span class="art-symbol">∞</span></div>
+            <div class="card-info"><div><h3>Garden of Errors</h3><p>18 × 24 in · digital print</p></div><strong>$18</strong></div>
+            <button class="add-item" type="button" data-name="Garden of Errors" data-price="18">Add to bag +</button>
+          </article>
+        </div>
+      </section>
+
+      <section class="pricing" id="membership" aria-labelledby="membership-heading">
+        <div class="section-wrap pricing-wrap">
+          <div class="pricing-intro">
+            <p class="eyebrow">The collector's club</p>
+            <h2 id="membership-heading">Stay strange.<br /><em>Stay inside.</em></h2>
+            <p>
+              Join the Art Asylum inner circle for exclusive digital editions,
+              early access to new drops, and studio notes reserved for the most curious collectors.
+            </p>
+          </div>
+
+          <div class="plans" role="list">
+            <article class="plan" role="listitem">
+              <div class="plan-tag">For curious minds</div>
+              <h3>Observer</h3>
+              <div class="price">$5 <small>/ month</small></div>
+              <ul class="features">
+                <li>Monthly studio dispatch</li>
+                <li>Early access to new drops</li>
+                <li>Member community updates</li>
+              </ul>
+              <button class="button plan-button" type="button" data-plan="Observer">Choose Observer</button>
+            </article>
+
+            <article class="plan featured" role="listitem">
+              <div class="plan-tag">Most collected</div>
+              <h3>Resident</h3>
+              <div class="price">$12 <small>/ month</small></div>
+              <ul class="features">
+                <li>One exclusive print monthly</li>
+                <li>Early access to every drop</li>
+                <li>10% off future editions</li>
+              </ul>
+              <button class="button plan-button" type="button" data-plan="Resident">Choose Resident</button>
+            </article>
+
+            <article class="plan striped-plan" role="listitem">
+              <div class="plan-tag">For devoted collectors</div>
+              <h3>Patron</h3>
+              <div class="price">$25 <small>/ month</small></div>
+              <ul class="features">
+                <li>Two exclusive prints monthly</li>
+                <li>Behind-the-scenes access</li>
+                <li>Private collector previews</li>
+              </ul>
+              <button class="button plan-button" type="button" data-plan="Patron">Choose Patron</button>
+            </article>
+          </div>
+
+          <p class="fine-print">
+            Preview mode — no payment is collected yet. Connect Stripe Checkout later using your own
+            secure product and price IDs.
+          </p>
+        </div>
+      </section>
+
+      <section class="about section-wrap" id="about">
+        <p class="eyebrow">Manifesto</p>
+        <div class="about-content">
+          <h2>Not everything needs to make sense.</h2>
+          <div>
+            <p>
+              Art Asylum is an independent digital gallery for work with a pulse. We believe your
+              space should feel like yours—and that the best art leaves a little room for mystery.
+            </p>
+            <a href="mailto:hello@artasylum.gallery" class="text-link">Say hello ↗</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="brand footer-brand">
+        <span class="brand-mark">AA</span>
+        <span>ART<br />ASYLUM</span>
+      </div>
+
+      <p>© 2026 Art Asylum<br />Made for the uncommon.</p>
+
+      <div class="footer-links">
+        <a href="#gallery">Shop</a>
+        <a href="#membership">Membership</a>
+        <a href="mailto:hello@artasylum.gallery">Contact</a>
+      </div>
+    </footer>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const cart = [];
+        const cartCount = document.getElementById("cartCount");
+        const toast = document.getElementById("toast");
+
+        function showToast(message) {
+          if (!toast) return;
+          toast.textContent = message;
+          toast.classList.add("show");
+          clearTimeout(window.toastTimer);
+          window.toastTimer = setTimeout(() => {
+            toast.classList.remove("show");
+          }, 2600);
+        }
+
+        document.querySelectorAll(".add-item").forEach((button) => {
+          button.addEventListener("click", () => {
+            const name = button.dataset.name || "Item";
+            const price = Number(button.dataset.price) || 0;
+
+            cart.push({ name, price });
+            if (cartCount) cartCount.textContent = String(cart.length);
+
+            showToast(`${name} added to your bag`);
+
+            const originalText = button.textContent;
+            button.textContent = "Added ✓";
+            setTimeout(() => {
+              button.textContent = originalText;
+            }, 1400);
+          });
+        });
+
+        const bagButton = document.getElementById("bagButton");
+        if (bagButton) {
+          bagButton.addEventListener("click", () => {
+            if (cart.length === 0) {
+              showToast("Your bag is empty — find something beautiful.");
+              return;
+            }
+
+            const total = cart.reduce((sum, item) => sum + Number(item.price || 0), 0);
+            showToast(
+              `${cart.length} item${cart.length === 1 ? "" : "s"} · $${total} · Checkout coming soon`
+            );
+          });
+        }
+
+        document.querySelectorAll(".filter").forEach((button) => {
+          button.addEventListener("click", () => {
+            document.querySelectorAll(".filter").forEach((b) => {
+              b.classList.remove("active");
+              b.setAttribute("aria-pressed", "false");
+            });
+
+            button.classList.add("active");
+            button.setAttribute("aria-pressed", "true");
+
+            const selected = button.dataset.filter || "all";
+            document.querySelectorAll(".art-card").forEach((card) => {
+              const category = card.dataset.category || "";
+              const shouldShow = selected === "all" || category.includes(selected);
+              card.style.display = shouldShow ? "" : "none";
+            });
+          });
+        });
+
+        document.querySelectorAll(".plan-button").forEach((button) => {
+          button.addEventListener("click", () => {
+            const plan = button.dataset.plan || "plan";
+            showToast(`${plan} selected — Stripe checkout coming soon`);
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
